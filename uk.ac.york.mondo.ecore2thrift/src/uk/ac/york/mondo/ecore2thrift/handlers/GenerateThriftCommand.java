@@ -28,7 +28,7 @@ import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.evl.EvlModule;
-import org.eclipse.epsilon.evl.EvlUnsatisfiedConstraint;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -77,10 +77,10 @@ public class GenerateThriftCommand extends AbstractHandler implements IHandler {
 						validateModule.parse(GenerateThriftCommand.class.getResource("/epsilon/ecore2thrift.evl").toURI());
 						validateModule.execute();
 						
-						List<EvlUnsatisfiedConstraint> unsatisfiedConstraints = validateModule.getContext().getUnsatisfiedConstraints();
+						List<UnsatisfiedConstraint> unsatisfiedConstraints = validateModule.getContext().getUnsatisfiedConstraints();
 						if (!unsatisfiedConstraints.isEmpty()) {
 							boolean shouldStop = false;
-							for (EvlUnsatisfiedConstraint unsatisfiedConstraint : unsatisfiedConstraints) {
+							for (UnsatisfiedConstraint unsatisfiedConstraint : unsatisfiedConstraints) {
 								IMarker marker = ecore.createMarker(EValidator.MARKER);
 								if (unsatisfiedConstraint.getConstraint().isCritique()) {
 									marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);

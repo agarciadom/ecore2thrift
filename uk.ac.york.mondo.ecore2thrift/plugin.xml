@@ -13,6 +13,12 @@
             id="uk.ac.york.mondo.ecore2thrift.generateThrift"
             name="Generate Thrift">
       </command>
+      <command
+            categoryId="uk.ac.york.mondo.ecore2thrift.category"
+            defaultHandler="uk.ac.york.mondo.ecore2thrift.handlers.GenerateLatexCommand"
+            id="uk.ac.york.mondo.ecore2thrift.generateLatex"
+            name="Generate LaTeX">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -22,6 +28,17 @@
             <command
                   commandId="uk.ac.york.mondo.ecore2thrift.generateThrift"
                   label="Generate Thrift IDL"
+                  style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <reference
+                        definitionId="uk.ac.york.mondo.ecore2thrift.isEcoreFile">
+                  </reference>
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="uk.ac.york.mondo.ecore2thrift.generateLatex"
+                  label="Generate LaTeX docs"
                   style="push">
                <visibleWhen
                      checkEnabled="false">
@@ -45,6 +62,17 @@
                </reference>
             </visibleWhen>
          </command>
+            <command
+                  commandId="uk.ac.york.mondo.ecore2thrift.generateLatex"
+                  label="Generate LaTeX docs"
+                  style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <reference
+                        definitionId="uk.ac.york.mondo.ecore2thrift.isEcoreFile">
+                  </reference>
+               </visibleWhen>
+            </command>
       </menuContribution>
    </extension>
    <extension

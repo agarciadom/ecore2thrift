@@ -24,10 +24,10 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
- * Generates a <code>.thrift</code> file from an annotated <code>.ecore</code>
+ * Generates a <code>.tex</code> file from an annotated <code>.ecore</code>
  * metamodel.
  */
-public class GenerateThriftCommand extends AbstractHandler implements IHandler {
+public class GenerateLatexCommand extends AbstractHandler implements IHandler {
 
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
@@ -35,9 +35,9 @@ public class GenerateThriftCommand extends AbstractHandler implements IHandler {
 		if (selection0 instanceof IStructuredSelection) {
 			final IStructuredSelection selection = (IStructuredSelection) selection0;
 			final IFile ecore = (IFile) selection.getFirstElement();
-			final File dest = ecore.getLocation().removeFileExtension().addFileExtension("thrift").toFile();
+			final File dest = ecore.getLocation().removeFileExtension().addFileExtension("tex").toFile();
 
-			Job job = new EGLJob("ecore2thrift", ecore, dest);
+			Job job = new EGLJob("ecore2latex", ecore, dest);
 			job.setUser(true);
 			job.schedule();
 		}

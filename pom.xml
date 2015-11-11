@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>uk.ac.york.mondo.ecore2thrift</groupId>
+  <artifactId>parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <properties>
+    <tycho-version>0.24.0</tycho-version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <modules>
+    <module>uk.ac.york.mondo.ecore2thrift</module>
+    <module>uk.ac.york.mondo.ecore2thrift.feature</module>
+    <module>uk.ac.york.mondo.ecore2thrift.updatesite</module>
+  </modules>
+
+  <repositories>
+    <repository>
+      <id>eclipse-luna</id>
+      <url>http://download.eclipse.org/releases/luna</url>
+      <layout>p2</layout>
+    </repository>    
+    <repository>
+      <id>epsilon</id>
+      <url>http://download.eclipse.org/epsilon/interim/</url>
+      <layout>p2</layout>
+    </repository>    
+  </repositories>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-compiler-plugin</artifactId>
+        <version>${tycho-version}</version>
+	<configuration>
+	  <source>1.7</source>
+	  <target>1.7</target>
+	</configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

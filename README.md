@@ -7,6 +7,8 @@ To install, please use this update site:
 
     http://bluezio.github.io/ecore2thrift/updates
 
+[![Build Status](https://travis-ci.org/bluezio/ecore2thrift.svg?branch=master)](https://travis-ci.org/bluezio/ecore2thrift)
+
 ## Known problems
 * Thrift cannot have any method names that are Thrift reserved words, even if they are not reserved words in the language you are using Thrift to generate.
   

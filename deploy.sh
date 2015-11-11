@@ -8,7 +8,7 @@ mvn --quiet install
 
 # Clone the gh-pages branch
 rm -rf out || true
-git clone -b gh-pages --single-branch https://github.com/bluezio/ecore2thrift
+git clone -b gh-pages --single-branch https://github.com/bluezio/ecore2thrift out
 cd out
 
 # Indicate clearly that this commit comes from Travis

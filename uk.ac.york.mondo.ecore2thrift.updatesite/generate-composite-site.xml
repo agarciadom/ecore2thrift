@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="composite">
+	<target name="composite">
+		<eclipse.refreshLocal
+			resource="uk.ac.york.mondo.ecore2thrift.updatesite"
+			depth="project" />
+
+		<p2.composite.repository>
+			<repository location="${basedir}"/>
+			<add>
+				<repository location="http://download.eclipse.org/epsilon/interim/"/>
+				<repository location="http://bluezio.github.io/ecore2thrift/ecore2thrift-updates/"/>
+			</add>
+		</p2.composite.repository>
+	</target>
+</project>

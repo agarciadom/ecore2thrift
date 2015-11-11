@@ -5,7 +5,7 @@ context ENamedElement {
 		check {
 			return not self.name.isThriftReservedWord();
 		}
-		message : self.name + " is a reserved word: please call it something different."
+		message : "Cannot use Thrift reserved word " + self.name + " as name for " + self.eClass.name
 	}
 }
 

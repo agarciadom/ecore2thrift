@@ -1,3 +1,4 @@
+[% import 'utilities.egl'; %]
 % WARNING: This is an auto-generated file. Do not modify manually.
 \makeatletter
   \newcommand{\camelhyph}[1]{\@fterfirst\c@amelhyph#1\relax }
@@ -17,7 +18,7 @@
 
 [%=EPackage.all.first.getAnnotationValue("doc", "dServices")%]
 
-[%for (c in EClass.all.select(c|not c.eOperations.isEmpty())) { %]
+[%for (c in EClass.all.select(c|not c.eOperations.isEmpty()).sortBy(c|c.name)) { %]
 \subsubsection{[%=c.name%]}
 \label{sec:[%=c.name%]}
 [%=c.getDoc()%]
@@ -26,15 +27,15 @@
 \begin{longtable} {|p{2cm}|p{3.5cm}|p{2.5cm}|p{6.5cm}|}
 	\caption{Operation [%=c.name%].[%=op.name%]}
 	\label{tab:[%=c.name.ftlc()%]-[%=op.name%]}\\
-	\hline%
-	Auth: [%=op.getAuth()%] & \textbf{Name} & \textbf{Type} & \textbf{Documentation} \\\hline 
-	\textbf{Operation} & \camelcase{[%=op.name%]} & [%=op.getType()%] [%=op.getStream()%] & [%=op.getDoc()%] \\\hline
-	\textbf{Parameter}s & & & \\\hline
+	\cline{2-4}%
+	\multicolumn{1}{c|}{} & \textbf{Name} & \textbf{Type} & \textbf{Documentation} \\\hline 
+	\textbf{Operation} & \camelcase{[%=op.name%]} & \camelcase{[%=op.getType()%]} & [%=op.getDoc()%] \\\hline
+	\textbf{Parameters} & \multicolumn{3}{l|}{[% if (op.eParameters.isEmpty) { out.print("None."); } %]} \\\hline
 	[%for (p in op.eParameters) { %]
-	 & [%=p.name.escapeLaTeX()%] [%=p.getOptional()%]& [%=p.getType()%] & [%=p.getDoc()%] \\\hline 
+	 & [%=p.name.escapeLaTeX()%] [%=p.getOptional()%]& \camelcase{[%=p.getType()%]} & [%=p.getDoc()%] \\\hline 
 	[%}
 	if (op.eExceptions.size > 0) { %]
-	\textbf{Exception}s & & & \\\hline
+	\textbf{Exceptions} & \multicolumn{3}{l|}{} \\\hline
 	[% for (e in op.eExceptions) { %]
 	 & \camelcase{[%=e.name.escapeLaTeX()%]} & \multicolumn{2}{p{8.5cm}|}{[%=e.getDoc()%]} \\\hline 
 	[% }
@@ -92,88 +93,6 @@ operation EModelElement getOptional() : String {
 	return "";
 }
 
-operation EOperation getAuth() : String {
-	if (self.getAnnotationValue("doc", "auth") == "false") {
-		return "No";
-	}
-	return "Yes";
-}
-
-operation EOperation getStream() : String {
-	if (self.isStream()) {
-		return " (stream)";
-	}
-	return "";
-}
-
-operation EModelElement getDoc() : String {
-	var doc = self.getAnnotationValue("doc", "d").trim();
-	if (doc.isDefined() and not doc.endsWith(".")) {
-		doc = doc + ".";
-	}
-	return doc;
-}
-
-operation ETypedElement getType() : String {
-	if (self.eType.isDefined()) {
-		var type = self.eType.name;
-		if (type == "EString") type = "String";
-		else if (type == "EInt") type = "int";
-		else if (type == "EBoolean") type = "boolean";
-		else if (type == "ELong") type = "long";
-		else if (type == "EJavaObject") type = "Object";
-		if (self.isMany()) {
-			type = type + "[]";
-		}
-		return "\\camelcase{" + type + "}";
-	}
-	else return "void";
-}
-
-operation EClassifier getEntityType() {
-  if (self.isException()) {
-    return "Exception";
-  } else {
-    return "Entity";
-  }
-}
-
-operation EClassifier usedIn() {
-	return EOperation.all.select(op|op.eType = self or op.eParameters.exists(p|p.eType == self) or op.eExceptions.contains(self)).
-			collect(op|op.eContainer.name + "." + op.name).
-			includingAll(EClass.all.select(c|c.eStructuralFeatures.exists(sf|sf.eType = self)).collect(c|c.name));
-}
-
-operation EModelElement isExcluded() {
-	return self.getAnnotationValue("doc", "exclude") == "true";
-}
-
-operation EClassifier isException() {
-    return EOperation.all.exists(op|op.eExceptions.contains(self)) or self.getAnnotationValue("doc", "exception") == "true";
-}
-
-operation EOperation isStream() {
-	return self.getAnnotationValue("doc", "stream") == "true";
-}
-
-operation EModelElement getAnnotationValue(name : String, detail : String) : Any {
-	
-	var ann := self.eAnnotations.selectOne(a|a.source = name);
-	var det;
-	
-	if (ann.isDefined()) {
-		det := ann.details.selectOne(d|d.key = detail);
-	}
-	
-	if (det.isDefined()) {
-		return det.value;
-	}
-	else {
-		return "";
-	}
-	return det;	
-}
-
 operation String escapeLaTeX() {
   return self.replaceAll("_", "\\\\_");
 }
@@ -222,7 +141,7 @@ operation describeEntity(c: EClass) {
 	[%
 	  if (c.eAllStructuralFeatures.size() > 0) {
 	    for (sf in c.eAllStructuralFeatures.sortBy(f|f.name)) { %]
-		  [%=sf.name.escapeLaTeX() + c.getInherited(sf) %] & [%=sf.getType() + sf.getOptional()%] & [%=sf.getDoc()%] \\\hline
+		  \camelcase{[%=sf.name.escapeLaTeX()%]} [%=c.getInherited(sf)%] & \camelcase{[%=sf.getType()%]} [%=sf.getOptional()%] & [%=sf.getDoc()%] \\\hline
 	 [% }
 	  } else { %]
 	    --- & --- & --- \\\hline

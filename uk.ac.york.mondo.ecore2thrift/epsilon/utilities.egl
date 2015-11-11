@@ -24,13 +24,6 @@ operation EOperation getAuth() : String {
 	return "Yes";
 }
 
-operation EOperation getStream() : String {
-	if (self.isStream()) {
-		return " (stream)";
-	}
-	return "";
-}
-
 operation EModelElement getDoc() : String {
 	var doc = self.getAnnotationValue("doc", "d").trim();
 	if (doc.isDefined() and not doc.endsWith(".")) {
@@ -55,7 +48,7 @@ operation EClassifier getEntityType() {
   } else if (self.isUnion()) {
     return "Union";
   } else {
-    return "Entity";
+    return "Structure";
   }
 }
 
@@ -94,10 +87,6 @@ operation EClassifier isException() {
 
 operation EClassifier isUnion() {
     return self.getAnnotationValue("thrift", "union") == "true";
-}
-
-operation EOperation isStream() {
-	return self.getAnnotationValue("doc", "stream") == "true";
 }
 
 operation EPackage getJavaNamespace() : String {

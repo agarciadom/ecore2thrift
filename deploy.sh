@@ -16,7 +16,7 @@ git config user.name "Travis CI"
 git config user.email "antonio.garciadominguez@york.ac.uk"
 
 # If the tip comes from Travis, amend it. Otherwise, add a new commit.
-rm -rf hawk-updates
+rm -rf ecore2thrift-updates
 cp -r ../uk.ac.york.mondo.ecore2thrift.updatesite/target/repository ecore2thrift-updates
 git add --all .
 if git log --format=%an HEAD~.. | grep -q "Travis CI"; then

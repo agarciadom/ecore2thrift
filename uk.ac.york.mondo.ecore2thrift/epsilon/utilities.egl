@@ -65,7 +65,11 @@ operation EClassifier getEntityThriftKeyword() {
 operation ETypedElement getDefault() {
   var d = self.getAnnotationValue("doc", "default");
   if (d.isDefined()) {
-    return " = " + d;
+    if (self.getType() == 'string') {
+      return " = \"" + d.replaceAll('"', '\"') + "\"";
+    } else {
+      return " = " + d;
+    }
   } else {
     return "";
   }

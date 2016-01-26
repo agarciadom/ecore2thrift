@@ -1,5 +1,7 @@
 # ecore2thrift
-This is a utility for generating a [Thrift](http://thrift.apache.org/) IDL file from an annotated [Ecore](http://www.eclipse.org/modeling/emf/) metamodel. It is written in EGL from the [Epsilon](http://www.eclipse.org/epsilon/) project.
+This is a utility for generating a [Thrift](http://thrift.apache.org/) IDL file from an annotated [Ecore](http://www.eclipse.org/modeling/emf/) metamodel. The main advantage of doing so is that Eclipse tooling for editing Ecore metamodels is more mature than existing Thrift editors, including some convenient textual editors such as [Emfatic](https://www.eclipse.org/emfatic/). Additionally, Ecore does not suffer from some of the inconveniences of the Thrift IDL, such as having to sort definitions in a particular way.
+
+It is written in EGL from the [Epsilon](http://www.eclipse.org/epsilon/) project.
 
 To install, please use this update site:
 

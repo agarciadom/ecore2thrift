@@ -90,7 +90,11 @@ operation ETypedElement getType() : String {
 					 }
 		}
 		if (self.isMany()) {
-			type = "list<" + type + ">";
+			if (self.hasAnnotation("thrift.set")) {
+				type = "set<" + type + ">";
+			} else {
+				type = "list<" + type + ">";
+			}
 		}
 		return type;
 	}

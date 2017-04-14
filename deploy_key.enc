@@ -1,0 +1,10 @@
+[33mcommit 0503f098037f079f1ba281eb61022107dae5b48d[m
+Author: Antonio García-Domínguez <nyoescape@gmail.com>
+Date:   Fri Apr 14 18:34:33 2017 +0100
+
+    Rename deploy key
+
+[1mdiff --git a/deploy_key.enc b/deploy_key.enc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..e0e31f3[m
+Binary files /dev/null and b/deploy_key.enc differ

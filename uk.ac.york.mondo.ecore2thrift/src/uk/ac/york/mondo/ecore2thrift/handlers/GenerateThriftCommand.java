@@ -27,22 +27,16 @@ import org.eclipse.ui.handlers.HandlerUtil;
  * Generates a <code>.thrift</code> file from an annotated <code>.ecore</code>
  * metamodel.
  */
-public class GenerateThriftCommand extends AbstractHandler implements IHandler {
+public class GenerateThriftCommand extends AbstractGenerateCommand {
 
 	@Override
-	public Object execute(final ExecutionEvent event) throws ExecutionException {
-		final ISelection selection0 = HandlerUtil.getCurrentSelection(event);
-		if (selection0 instanceof IStructuredSelection) {
-			final IStructuredSelection selection = (IStructuredSelection) selection0;
-			final IFile ecore = (IFile) selection.getFirstElement();
-			final File dest = ecore.getLocation().removeFileExtension().addFileExtension("thrift").toFile();
+	protected String getEGLScriptName() {
+		return "ecore2thrift";
+	}
 
-			Job job = new EGLJob("ecore2thrift", ecore, dest);
-			job.setUser(true);
-			job.schedule();
-		}
-
-		return null;
+	@Override
+	protected String getFileExtension() {
+		return "thrift";
 	}
 
 }

@@ -11,20 +11,32 @@
  ******************************************************************************/
 package uk.ac.york.mondo.ecore2thrift.handlers;
 
+import java.io.File;
+
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.IHandler;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.handlers.HandlerUtil;
+
 /**
- * Generates a <code>.tex</code> file from an annotated <code>.ecore</code>
+ * Generates a <code>.thrift</code> file from an annotated <code>.ecore</code>
  * metamodel.
  */
-public class GenerateLatexCommand extends AbstractGenerateCommand {
+public class GenerateMarkdownCommand extends AbstractGenerateCommand {
 
 	@Override
 	protected String getEGLScriptName() {
-		return "ecore2latex";
+		return "ecore2markdown";
 	}
 
 	@Override
 	protected String getFileExtension() {
-		return "tex";
+		return "md";
 	}
 
 }

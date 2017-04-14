@@ -19,60 +19,70 @@
             id="uk.ac.york.mondo.ecore2thrift.generateLatex"
             name="Generate LaTeX">
       </command>
+      <command
+            categoryId="uk.ac.york.mondo.ecore2thrift.category"
+            defaultHandler="uk.ac.york.mondo.ecore2thrift.handlers.GenerateMarkdownCommand"
+            id="uk.ac.york.mondo.ecore2thrift.generateMarkdown"
+            name="Generate Markdown">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
             locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
-            <command
-                  commandId="uk.ac.york.mondo.ecore2thrift.generateThrift"
-                  label="Generate Thrift IDL"
-                  style="push">
+            <menu
+                  label="Ecore2Thrift">
                <visibleWhen
                      checkEnabled="false">
                   <reference
                         definitionId="uk.ac.york.mondo.ecore2thrift.isEcoreFile">
                   </reference>
                </visibleWhen>
-            </command>
-            <command
-                  commandId="uk.ac.york.mondo.ecore2thrift.generateLatex"
-                  label="Generate LaTeX docs"
-                  style="push">
-               <visibleWhen
-                     checkEnabled="false">
-                  <reference
-                        definitionId="uk.ac.york.mondo.ecore2thrift.isEcoreFile">
-                  </reference>
-               </visibleWhen>
-            </command>
+               <command
+                     commandId="uk.ac.york.mondo.ecore2thrift.generateThrift"
+                     label="Generate Thrift IDL"
+                     style="push">
+               </command>
+               <command
+                     commandId="uk.ac.york.mondo.ecore2thrift.generateLatex"
+                     label="Generate LaTeX docs"
+                     style="push">
+               </command>
+               <command
+                     commandId="uk.ac.york.mondo.ecore2thrift.generateMarkdown"
+                     label="Generate Markdown"
+                     style="push">
+               </command>
+            </menu>
       </menuContribution>
       <menuContribution
             allPopups="false"
             locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu">
-         <command
-               commandId="uk.ac.york.mondo.ecore2thrift.generateThrift"
-               label="Generate Thrift IDL"
-               style="push">
-            <visibleWhen
-                  checkEnabled="false">
-               <reference
-                     definitionId="uk.ac.york.mondo.ecore2thrift.isEcoreFile">
-               </reference>
-            </visibleWhen>
-         </command>
-            <command
-                  commandId="uk.ac.york.mondo.ecore2thrift.generateLatex"
-                  label="Generate LaTeX docs"
-                  style="push">
+            <menu
+                  label="Ecore2Thrift">
                <visibleWhen
                      checkEnabled="false">
                   <reference
                         definitionId="uk.ac.york.mondo.ecore2thrift.isEcoreFile">
                   </reference>
                </visibleWhen>
-            </command>
+               <command
+                     commandId="uk.ac.york.mondo.ecore2thrift.generateThrift"
+                     label="Generate Thrift IDL"
+                     style="push">
+               </command>
+               <command
+                     commandId="uk.ac.york.mondo.ecore2thrift.generateLatex"
+                     label="Generate LaTeX docs"
+                     style="push">
+               </command>
+               <command
+                     commandId="uk.ac.york.mondo.ecore2thrift.generateMarkdown"
+                     label="Generate Markdown"
+                     style="push">
+               </command>
+            </menu>
       </menuContribution>
    </extension>
    <extension

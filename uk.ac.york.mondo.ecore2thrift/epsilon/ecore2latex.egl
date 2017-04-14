@@ -86,13 +86,6 @@ if (exceptions.size() > 0) {
 [% } /* for */
 } /* if (exceptions ... */
 
-operation EModelElement getOptional() : String {
-	if (self.getAnnotationValue("doc", "optional") == "true") {
-		return " (optional)";
-	}
-	return "";
-}
-
 operation String escapeLaTeX() {
   return self.replaceAll("_", "\\\\_");
 }

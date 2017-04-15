@@ -2,7 +2,7 @@
 [%=EPackage.all.first.getAnnotationValue("doc", "dServices")%]
 
 ## Services
-[% for (c in EClass.all.select(c|not c.eOperations.isEmpty()).sortBy(c|c.name)) { %]
+[% for (c in EClass.all.select(c|not c.eOperations.isEmpty() and not c.isExcluded()).sortBy(c|c.name)) { %]
 
 ### [%=c.name%]
 

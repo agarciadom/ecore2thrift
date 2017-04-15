@@ -17,7 +17,7 @@ enum [%=c.name%] {
 
 [%} /* for (c in EClass... */
 
-for (c in EClass.all.select(c|not c.eOperations.isEmpty())) { %]
+for (c in EClass.all.select(c|not c.eOperations.isEmpty() and not c.isExcluded())) { %]
 /* [%=c.getDoc()%] */
 service [%=c.name%] {
   [% for (op in c.eOperations) { %]

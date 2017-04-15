@@ -18,7 +18,7 @@
 
 [%=EPackage.all.first.getAnnotationValue("doc", "dServices")%]
 
-[%for (c in EClass.all.select(c|not c.eOperations.isEmpty()).sortBy(c|c.name)) { %]
+[%for (c in EClass.all.select(c|not c.eOperations.isEmpty() and not c.isExcluded()).sortBy(c|c.name)) { %]
 \subsubsection{[%=c.name%]}
 \label{sec:[%=c.name%]}
 [%=c.getDoc()%]

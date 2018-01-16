@@ -27,7 +27,7 @@
     </repository>    
     <repository>
       <id>epsilon</id>
-      <url>http://download.eclipse.org/epsilon/updates/</url>
+      <url>http://download.eclipse.org/epsilon/interim/</url>
       <layout>p2</layout>
     </repository>    
   </repositories>

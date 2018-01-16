@@ -32,7 +32,7 @@ import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.emc.emf.EmfModel;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
@@ -150,7 +150,7 @@ public final class EGLJob extends Job {
 			final EglFileGeneratingTemplateFactory factory) {
 		try {
 			monitor.subTask("Loading model");
-			final IEolExecutableModule eglModule = new EglTemplateFactoryModuleAdapter(factory);
+			final IEolModule eglModule = new EglTemplateFactoryModuleAdapter(factory);
 			addModelFromFile(eglModule, ecoreFile);
 		} catch (Exception e) {
 			Activator.getPlugin().logError("There was an error while loading the model", e);
@@ -193,7 +193,7 @@ public final class EGLJob extends Job {
 		return null;
 	}
 
-	private void addModelFromFile(IEolExecutableModule eglModule, File file) throws EolModelLoadingException {
+	private void addModelFromFile(IEolModule eglModule, File file) throws EolModelLoadingException {
 		final EmfModel model = new EmfModel();
 		model.setModelFile(file.getAbsolutePath());
 		model.setName(file.getName());

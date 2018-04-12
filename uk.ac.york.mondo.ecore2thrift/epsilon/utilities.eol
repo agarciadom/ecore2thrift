@@ -163,3 +163,83 @@ operation String isJavaPackageName() : Boolean {
 	}
 	return true;
 }
+
+operation getMainEPackage() : EPackage {
+  return Model.resource.contents.first;
+}
+
+// Returns all the classes that will provide services.
+operation getAllServiceClasses() : Sequence {
+  return getMainEPackage().eClassifiers.select(c|c.isKindOf(EClass))
+    .select(c|not c.eOperations.isEmpty() and not c.isExcluded())
+    .asSequence;
+}
+
+// Returns all the enums in the main EPackage, plus the ones referenced
+// from our services.
+operation getAllEnums() : Sequence {
+  var enums : Set;
+  enums.addAll(getMainEPackage().eClassifiers.select(e|e.isKindOf(EEnum)));
+
+  for (klass in getAllClasses()) {
+    enums.addAll(klass.eOperations.eParameters
+      .collect(p|p.eType).flatten
+      .select(t|t.isKindOf(EEnum))
+    );
+    enums.addAll(klass.eOperations.eType.select(t|t.isKindOf(EEnum)));
+    enums.addAll(klass.eAttributes.eType.select(t|t.isKindOf(EEnum)));
+  }
+
+  return enums
+    .select(e|not e.isExcluded())
+    .sortBy(c|c.name);
+}
+
+// Returns all the classes that only provide information (no services)
+operation getAllDataClasses() : Sequence {
+  return getAllClasses()
+    .select(c|c.eOperations.isEmpty() and not c.isExcluded() and not c.isMap())
+    .sortBy(c|c.name);
+}
+
+// Returns all the entity classes: some of these may come from imported EPackages.
+// Thrift has an "include" statement, but we want to make the API standalone so we
+// will just duplicate those entities.
+operation getAllEntityClasses() : Sequence {
+  return getAllDataClasses().select(c | not c.isException());
+}
+
+// Returns all the exception classes
+operation getAllExceptions() : Sequence {
+  return getAllDataClasses().select(c | c.isException());
+}
+
+// Returns all classes referred directly or indirectly from the main EPackage's own classes
+operation getAllClasses() : Set {
+  var classes : Set;
+  var queue : Sequence;
+  queue.addAll(getMainEPackage().eClassifiers.select(c|c.isKindOf(EClass)));
+
+  while (not queue.isEmpty) {
+    var klass = queue.removeAt(0);
+    if (classes.add(klass)) {
+      // References through structural features
+      queue.addAll(klass.eAllStructuralFeatures
+        .collect(t|t.eType).flatten
+        .select(t|t.isKindOf(EClass)));
+
+      // Operation arguments
+      queue.addAll(klass.eOperations.eParameters
+        .collect(p|p.eType).flatten
+        .select(t|t.isKindOf(EClass)));
+
+      // Return types
+      queue.addAll(klass.eOperations.eType.select(t|t.isKindOf(EClass)));
+
+      // Exceptions
+      queue.addAll(klass.eOperations.eExceptions.flatten);
+    }
+  }
+
+  return classes;
+}

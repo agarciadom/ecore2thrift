@@ -129,26 +129,4 @@ operation EClass computeDepth() : Integer {
 	return curDeepestChild + 1;
 }
 
-/*
- * Generates Thrift code for an entity or an exception.
- */
-operation describeEntity(c: EClass) {
-    describeEntityFields(c, 1);
-}
-
-operation describeEntityFields(c: EClass, iParameter: Integer): Integer {
-	for (sf in c.eAllStructuralFeatures) {
-		if (sf.getNum() > iParameter) {
-			iParameter = sf.getNum();
-		}
-		if (sf.isMerged()) {
-			iParameter = describeEntityFields(sf.eType, iParameter);
-		} else {
-   %]
-	 /* [%=sf.getDoc()%] */ [%=iParameter%]: [%=sf.getOptional(c.isUnion()) %] [%=sf.getType()%] [%=sf.name%][%=sf.getDefault()%],
-[% iParameter = iParameter + 1;
-		}
-	}
-	return iParameter;
-}
 %]

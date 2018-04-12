@@ -1,7 +1,7 @@
 [% import 'utilities.egl'; %]
 namespace java [%=EPackage.all.first.getJavaNamespace()%]
 
-[% for (c in EEnum.all.select(c|not c.isExcluded()).sortBy(c|c.name)) { %]
+[% for (c in getAllEnums()) { %]
 enum [%=c.name%] {
 	[% for (l in c.eLiterals.sortBy(l|l.name)) { %]
 		/* [%=l.getDoc()%] */ [%=l.name%] 
@@ -10,14 +10,14 @@ enum [%=c.name%] {
 
 [% } /* for (c in EClass... */ %]
 
-[% for (c in EClass.all.select(c|c.eOperations.isEmpty() and not c.isMap() and not c.isExcluded()).sortBy(c|c.name).sortBy(c| c.computeDepth())) { %]
+[% for (c in getAllDataClasses().sortBy(c| c.computeDepth())) { %]
 [%=c.getEntityThriftKeyword()%] [%=c.name %] {
 [% describeEntity(c); %]
 }
 
 [%} /* for (c in EClass... */
 
-for (c in EClass.all.select(c|not c.eOperations.isEmpty() and not c.isExcluded())) { %]
+for (c in getAllServiceClasses()) { %]
 /* [%=c.getDoc()%] */
 service [%=c.name%] {
   [% for (op in c.eOperations) { %]
@@ -57,4 +57,28 @@ service [%=c.name%] {
 } /* for (op...) */ %]
 }
 
-[%} /* for (c in EClass) */ %]
+[%} /* for (c in EClass) */
+
+/*
+ * Generates Thrift code for an entity or an exception.
+ */
+operation describeEntity(c: EClass) {
+    describeEntityFields(c, 1);
+}
+
+operation describeEntityFields(c: EClass, iParameter: Integer): Integer {
+	for (sf in c.eAllStructuralFeatures) {
+		if (sf.getNum() > iParameter) {
+			iParameter = sf.getNum();
+		}
+		if (sf.isMerged()) {
+			iParameter = describeEntityFields(sf.eType, iParameter);
+		} else {
+   %]
+	 /* [%=sf.getDoc()%] */ [%=iParameter%]: [%=sf.getOptional(c.isUnion()) %] [%=sf.getType()%] [%=sf.name%][%=sf.getDefault()%],
+[% iParameter = iParameter + 1;
+		}
+	}
+	return iParameter;
+}
+ %]

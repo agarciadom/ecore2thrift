@@ -18,7 +18,7 @@
 
 [%=EPackage.all.first.getAnnotationValue("doc", "dServices")%]
 
-[%for (c in EClass.all.select(c|not c.eOperations.isEmpty() and not c.isExcluded()).sortBy(c|c.name)) { %]
+[%for (c in getAllServiceClasses()) { %]
 \subsubsection{[%=c.name%]}
 \label{sec:[%=c.name%]}
 [%=c.getDoc()%]
@@ -47,18 +47,18 @@
 
 \subsection{Entities}
 \label{sec:entities}
-[%for (c in EClass.all.select(c|c.eOperations.isEmpty() and not c.isExcluded() and not c.isException()).sortBy(c|c.name)) { %]
+[%for (c in getAllEntityClasses()) { %]
 \subsubsection{[%=c.name%]}
 
 [% describeEntity(c); %]
 
 [%} /* for (c in EClass... */ %]
 
-[% if (EEnum.all.size() > 0) { %]
+[% var enums = getAllEnums(); if (enums.size() > 0) { %]
 
 \subsection{Enumerations}
 \label{sec:enumerations}
-[% for (c in EEnum.all.select(c|not c.isExcluded()).sortBy(c|c.name)) { %]
+[% for (c in enums) { %]
 \subsubsection{[%=c.name%]}
 
 \begin{longtable} {|p{4cm}|p{10.5cm}|}
@@ -75,7 +75,7 @@
 [% } /* for (c in EClass... */
 } /* if (EEnum... */
 
-var exceptions = EClass.all.select(c|c.eOperations.isEmpty() and not c.isExcluded() and c.isException()).sortBy(c|c.name);
+var exceptions = getAllExceptions();
 if (exceptions.size() > 0) {
 %]
 \subsection{Exceptions}

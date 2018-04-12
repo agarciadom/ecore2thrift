@@ -2,7 +2,7 @@
 [%=EPackage.all.first.getAnnotationValue("doc", "dServices")%]
 
 ## Services
-[% for (c in EClass.all.select(c|not c.eOperations.isEmpty() and not c.isExcluded()).sortBy(c|c.name)) { %]
+[% for (c in getAllServiceClasses()) { %]
 
 ### [%=c.name%]
 
@@ -40,17 +40,17 @@ May throw these exceptions:
 
 ## Entities
 
-[% for (c in EClass.all.select(c|c.eOperations.isEmpty() and not c.isExcluded() and not c.isException()).sortBy(c|c.name)) { %]
+[% for (c in getAllEntityClasses()) { %]
 
 ### [%=c.name%] ###
 
 [% describeEntity(c);
 } /* for (c in EClass... */
-
-if (EEnum.all.size() > 0) { %]
+var enums = getAllEnums();
+if (enums.size() > 0) { %]
 
 ## Enumerations
-[% for (c in EEnum.all.select(c|not c.isExcluded()).sortBy(c|c.name)) { %]
+[% for (c in enums) { %]
 
 ### [%=c.name%] ###
 
@@ -64,7 +64,7 @@ if (EEnum.all.size() > 0) { %]
  } /* for (c in EClass... */
 } /* if (EEnum... */
 
-var exceptions = EClass.all.select(c|c.eOperations.isEmpty() and not c.isExcluded() and c.isException()).sortBy(c|c.name);
+var exceptions = getAllExceptions();
 if (exceptions.size() > 0) {
 %]
 ## Exceptions

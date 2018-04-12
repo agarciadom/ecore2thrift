@@ -13,7 +13,6 @@ package uk.ac.york.mondo.ecore2thrift.handlers;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -25,6 +24,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
@@ -33,6 +33,7 @@ import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
@@ -64,7 +65,7 @@ public final class EGLJob extends Job {
 	protected IStatus run(IProgressMonitor monitor) {
 		monitor.beginTask("Generating Thrift file from Ecore", 3);
 
-		final File ecoreFile = ecore.getLocation().toFile();
+		final URI ecoreFile = URI.createPlatformResourceURI(ecore.getFullPath().toString(), true);
 		IStatus status = validateInput(monitor, ecoreFile);
 		if (status != null) {
 			return status;
@@ -88,7 +89,7 @@ public final class EGLJob extends Job {
 		return Status.OK_STATUS;
 	}
 
-	private IStatus validateInput(IProgressMonitor monitor, final File ecoreFile) {
+	private IStatus validateInput(IProgressMonitor monitor, final URI ecoreFile) {
 		try {
 			monitor.subTask("Validating");
 			for (IMarker marker : ecore.findMarkers(EValidator.MARKER, false, IResource.DEPTH_INFINITE)) {
@@ -146,11 +147,13 @@ public final class EGLJob extends Job {
 		return null;
 	}
 
-	private IStatus loadModel(IProgressMonitor monitor, final File ecoreFile,
+	private IStatus loadModel(IProgressMonitor monitor, final URI ecoreFile,
 			final EglFileGeneratingTemplateFactory factory) {
 		try {
 			monitor.subTask("Loading model");
 			final IEolModule eglModule = new EglTemplateFactoryModuleAdapter(factory);
+			EclipseContextManager.setup(eglModule.getContext());
+
 			addModelFromFile(eglModule, ecoreFile);
 		} catch (Exception e) {
 			Activator.getPlugin().logError("There was an error while loading the model", e);
@@ -162,8 +165,7 @@ public final class EGLJob extends Job {
 	private IStatus runTemplate(IProgressMonitor monitor, final EglFileGeneratingTemplateFactory factory) {
 		try {
 			monitor.subTask("Processing model");
-			final URI ecore2thriftURI = GenerateThriftCommand.class.getResource("/epsilon/" + getName() + ".egl")
-					.toURI(); // should I bother giving this a name?
+			final java.net.URI ecore2thriftURI = getClass().getResource("/epsilon/" + getName() + ".egl").toURI(); // should I bother giving this a name?
 			final EglFileGeneratingTemplate template = (EglFileGeneratingTemplate) factory.load(ecore2thriftURI);
 			template.process();
 			for (StatusMessage message : factory.getContext().getStatusMessages()) {
@@ -193,11 +195,12 @@ public final class EGLJob extends Job {
 		return null;
 	}
 
-	private void addModelFromFile(IEolModule eglModule, File file) throws EolModelLoadingException {
+	private void addModelFromFile(IEolModule eglModule, URI file) throws EolModelLoadingException {
 		final EmfModel model = new EmfModel();
-		model.setModelFile(file.getAbsolutePath());
-		model.setName(file.getName());
+		model.setModelFileUri(file);
+		model.setName("Model");
 		model.setMetamodelUri(ECORE_URI);
+		model.setExpand(true);
 		model.load();
 		eglModule.getContext().getModelRepository().addModel(model);
 	}

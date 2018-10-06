@@ -111,7 +111,7 @@ operation EClassifier getInherited(sf: EStructuralFeature) : String {
 }
 
 operation String ftlc() : String {
-  return self.charAt(0).asCharacter().toLowerCase() + self.substring(1);
+  return self.characterAt(0).toLowerCase() + self.substring(1);
 }
 
 /*

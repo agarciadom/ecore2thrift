@@ -11,18 +11,6 @@
  ******************************************************************************/
 package uk.ac.york.mondo.ecore2thrift.handlers;
 
-import java.io.File;
-
-import org.eclipse.core.commands.AbstractHandler;
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.handlers.HandlerUtil;
-
 /**
  * Generates a <code>.thrift</code> file from an annotated <code>.ecore</code>
  * metamodel.

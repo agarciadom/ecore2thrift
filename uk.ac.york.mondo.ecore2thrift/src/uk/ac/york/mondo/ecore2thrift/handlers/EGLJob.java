@@ -13,7 +13,7 @@ package uk.ac.york.mondo.ecore2thrift.handlers;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.Collection;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -103,8 +103,7 @@ public final class EGLJob extends Job {
 			validateModule.parse(GenerateThriftCommand.class.getResource(PATH_TO_EVL).toURI());
 			validateModule.execute();
 
-			List<UnsatisfiedConstraint> unsatisfiedConstraints = validateModule.getContext()
-					.getUnsatisfiedConstraints();
+			Collection<UnsatisfiedConstraint> unsatisfiedConstraints = validateModule.getContext().getUnsatisfiedConstraints();
 			if (!unsatisfiedConstraints.isEmpty()) {
 				boolean shouldStop = false;
 				for (UnsatisfiedConstraint unsatisfiedConstraint : unsatisfiedConstraints) {

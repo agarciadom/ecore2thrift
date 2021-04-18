@@ -4,7 +4,7 @@ operation String isThriftReservedWord() : Boolean {
 		"java_package", "cocoa_prefix", "php_namespace", "py_module", 
 		"perl_package", "ruby_namespace", "smalltalk_category", 
 		"smalltalk_prefix", "xsd_all", "xsd_optional", "xsd_nillable",
-		"xsd_namespace", "xsd_attrs", "include", "void", "bool", "byte", "i16",
+		"xsd_namespace", "xsd_attrs", "include", "void", "bool", "byte", "i8", "i16",
 		"i32", "i64", "double", "string", "binary", "slist", "senum", "map",
 		"list", "set", "async", "typedef", "struct", "exception", "extends", 
 		"throws", "service", "enum", "const", "required", "optional", "abstract",
@@ -64,8 +64,8 @@ operation ETypedElement getType() : String {
 			return "map<" + eType.getMapKeyField().getType() + "," + eType.getMapValueField().getType() + ">";
 		}
 		switch (type) {
-			case "EByte"            : type = "byte";
-			case "EByteObject"      : type = "byte";
+			case "EByte"            : type = "i8";
+			case "EByteObject"      : type = "i8";
 			case "EByteArray"       : type = "binary";
 			case "EBooleanObject"   : type = "bool";
 			case "EBoolean"         : type = "bool";

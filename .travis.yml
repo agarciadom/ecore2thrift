@@ -2,4 +2,4 @@ language: java
 script: bash ./deploy.sh
 env:
   global:
-    - ENCRYPTION_LABEL="84f95f597729"
+    - ENCRYPTION_LABEL="189e52c2c347"

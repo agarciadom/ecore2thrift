@@ -112,7 +112,7 @@ operation EPackage getJavaNamespace() : String {
 @cached
 operation EClass computeDepth() : Integer {
 	if (self.~depthVisiting.isDefined()) {
-	  -- Avoid cyclic references
+	  // Avoid cyclic references
 	  return -1;
 	}
 

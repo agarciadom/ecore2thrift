@@ -5,7 +5,7 @@ It is written in EGL from the [Epsilon](http://www.eclipse.org/epsilon/) project
 
 To install, please use this update site:
 
-    http://bluezio.github.io/ecore2thrift/updates
+    https://agarciadom.github.io/ecore2thrift/updates
 
 For more information, including a basic tutorial and a reference of the available annotations, visit the [wiki](https://github.com/bluezio/ecore2thrift/wiki).
 

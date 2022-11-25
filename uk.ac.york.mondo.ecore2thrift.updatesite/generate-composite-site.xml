@@ -9,7 +9,8 @@
 			<repository location="${basedir}"/>
 			<add>
 				<repository location="https://download.eclipse.org/epsilon/updates/2.4/"/>
-				<repository location="https://agarciadom.github.io/ecore2thrift/ecore2thrift-updates/"/>
+				<repository location="https://agarciadom.github.io/ecore2thrift/ecore2thrift-updates/1.1.0/"/>
+				<repository location="https://agarciadom.github.io/ecore2thrift/ecore2thrift-updates/1.1.1/"/>
 			</add>
 		</p2.composite.repository>
 	</target>

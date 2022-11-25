@@ -9,7 +9,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <tycho-version>2.3.0</tycho-version>
+    <tycho-version>2.7.5</tycho-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -22,12 +22,12 @@
   <repositories>
     <repository>
       <id>eclipse-luna</id>
-      <url>http://download.eclipse.org/releases/2021-06</url>
+      <url>http://download.eclipse.org/releases/2022-09</url>
       <layout>p2</layout>
     </repository>    
     <repository>
       <id>epsilon</id>
-      <url>http://download.eclipse.org/epsilon/updates/2.2/</url>
+      <url>http://download.eclipse.org/epsilon/updates/2.4/</url>
       <layout>p2</layout>
     </repository>    
   </repositories>

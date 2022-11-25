@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.york.mondo.ecore2thrift.feature"
       label="Ecore2Thrift Feature"
-      version="1.1.0.qualifier"
+      version="1.1.1.qualifier"
       provider-name="University of York">
 
    <description>
